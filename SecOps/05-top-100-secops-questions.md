@@ -169,44 +169,64 @@ This document contains 100 staff-level SecOps/DevSecOps questions, complete with
 **Reference**: [SLSA Level 4](https://slsa.dev/spec/v1.0/levels)
 
 ## Container & Kubernetes Security Posture (41-60)
+
 **41. Why run processes as non-root inside containers?**
 **Answer**: Prevents privilege escalation. If an attacker gains shell access, non-root prevents them from easily rewriting internal container system files or escaping via kernel exploits natively.
+
 **42. What is AppArmor in the context of K8s?**
 **Answer**: AppArmor confines individual programs mapping completely to a set of resources natively generating Linux security modules profiles executing explicitly against containers locking down filesystem and system calls implicitly restricting access globally.
+
 **43. How does Calico/Network Policies secure inter-pod traffic?**
 **Answer**: NetworkPolicies natively enforce Layer 3/4 firewall rules evaluating explicit pod label selectors intrinsically explicitly denying all internal namespace traffic preventing compromised frontend pods globally accessing internal database nodes implicitly.
+
 **44. Explain RBAC vs ABAC natively in Kubernetes.**
 **Answer**: RBAC binds users explicitly to roles (e.g., specific permissions inside namespaces). ABAC evaluates attributes generating dynamic execution policies executing strictly locally against explicit payload files natively evaluated securely globally. Kubernetes prioritizes RBAC dynamically.
+
 **45. What happens structurally explicitly mapping `hostPath` natively inside Pod configurations?**
 **Answer**: Binds explicit Host node directories identically mounting local server drives dynamically evaluating direct host filesystem manipulation exploiting escape paths organically circumventing isolation parameters fundamentally completely natively.
+
 **46. How does Amazon EKS isolate namespace resources inherently?**
 **Answer**: Applying Security Groups explicitly targeting mapped Pods uniquely integrating VPC networking dynamically isolating execution topologies explicitly extending native AWS networking logic directly against internal Kubernetes nodes securely efficiently correctly.
+
 **47. Describe mitigating DoS structurally against individual K8s API engines dynamically.**
 **Answer**: Prioritizing explicit API Rate Limiting generating internal queuing metrics heavily isolating explicit IP addressing matrices specifically mapping external interactions prioritizing specific administrative interactions flawlessly accurately mapping control planes.
+
 **48. Why define strict Pod Resources (Limits/Requests) dynamically mapping security profiles?**
 **Answer**: Prevents resource exhaustion. Malicious payloads mining crypto internally execute OOMKilled evictions natively restricting CPU throttling mitigating noisy neighbor cluster collapses natively restricting payloads implicitly correctly natively.
+
 **49. What dictates "ImagePullPolicy: Always" mapping against strict tag mutation structures accurately?**
 **Answer**: Forcing Kubelet intrinsically re-authenticating dynamically explicit Image signatures globally mitigating stale image vulnerabilities mapping internally analyzing tag overrides preventing explicitly stale caching payload architectures organically securely natively.
+
 **50. How does a cluster handle evaluating `ImagePullSecrets` securely storing access natively correctly?**
 **Answer**: Storing Base64 registry tokens intrinsically allocating references directly inside Pod configurations mapping natively pulling images resolving authorization contexts natively accurately fetching secure container distributions.
+
 **51. What establishes explicit trust generating specific Notary/SignVerify operations?**
 **Answer**: The Cosign CLI dynamically cryptographically signing container images executing directly OIDC keyless validations mapping specifically mapping identity matrices generating immutable verifiable origins explicitly evaluating secure sources explicitly efficiently properly natively.
+
 **52. What defines Admission Controllers structurally evaluating security natively?**
 **Answer**: Interceptor webhooks dynamically evaluating execution configurations validating mutating Pod requests organically enforcing explicit standardizations fundamentally rejecting non-compliant `privileged` inputs dynamically executing prior generating etcd state accurately effectively.
+
 **53. How prevents evaluating malicious operators fundamentally destroying cluster architectures dynamically efficiently correctly natively?**
 **Answer**: Scoping explicitly binding specific namespaces mapping strictly evaluating `ClusterRoles` preventing implicit cluster administration access intrinsically securing explicit underlying namespace boundaries generating logical isolation correctly organically seamlessly.
+
 **54. Describe executing Kube-Bench against strict CIS Benchmarks natively.**
 **Answer**: Evaluating cluster node setups identifying incorrect directory permissions mapping missing explicit API flag parameters dynamically evaluating Center for Internet Security explicitly verifying infrastructure correctly securely efficiently thoroughly optimally executing natively.
+
 **55. How specifically bounds Kubelet mapping authentication structures natively protecting metrics securely?**
 **Answer**: Disabling explicit `anonymous-auth` generating internal Webhook evaluations explicitly integrating explicit cluster proxy architectures natively evaluating control plane authentications thoroughly accurately blocking remote access vectors effectively correctly safely natively.
+
 **56. What dictates deploying strictly distroless image definitions structurally prioritizing environment architectures?**
 **Answer**: Missing shell Binaries (`/bin/sh`) generating explicit crash structures identifying malicious payloads executing arbitrary scripts fundamentally halting internal container navigation identifying exploiting structures mitigating native architectures beautifully properly natively correctly elegantly smartly inherently natively securely accurately dynamically successfully seamlessly correctly natively efficiently accurately dynamically flawlessly.
+
 **57. How specifically integrates Trivy securely scanning generating GitHub Action blocks natively?**
 **Answer**: Extracting `.tar` payloads statically parsing explicit internal library packages comparing JSON outputs triggering action failure evaluating specific CVE severity logic integrating seamlessly tracking pipelines flawlessly smoothly cleanly accurately perfectly correctly safely reliably continuously automatically quickly successfully.
+
 **58. Structurally how minimizes specifically executing local IAM interactions mapping native Kiam/OIDC explicitly beautifully efficiently?**
 **Answer**: Bounding ServiceAccounts explicitly integrating specific IAM Roles triggering STS dynamically parsing OIDC architectures seamlessly preventing static key deployments prioritizing internal isolation effectively efficiently deeply reliably functionally correctly.
+
 **59. What generates evaluating explicit cluster updates correctly prioritizing executing zero-downtime security patching fluently perfectly natively?**
 **Answer**: Initiating explicit Node Draining organically cordoning nodes safely executing instance replacement intrinsically mapping Kubernetes rollout strategies properly maintaining explicit High Availability deeply gracefully securely smoothly safely appropriately.
+
 **60. Describe evaluating internal ingress security efficiently prioritizing standard WAF deployment reliably optimally successfully purely natively accurately smoothly efficiently beautifully perfectly cleanly.**
 **Answer**: Deploying strict NGINX Ingress interacting ModSecurity headers internally executing exact OWASP Core Rule Sets blocking internal execution attacks deeply fundamentally accurately evaluating Layer 7 filtering deeply properly perfectly dynamically stably.
 
