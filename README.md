@@ -7,6 +7,8 @@ Welcome to the **DevOps & CI/CD** learning path. This directory contains structu
 - 🐙 **[GitHub Actions](./GitHub%20Actions/)**: The modern, native CI/CD solution by GitHub. Learn about events, actions, runners, and workflows.
 - 🦊 **[GitLab CI-CD](./GitLab%20CI-CD/)**: A powerful integrated tool inside GitLab. Master `.gitlab-ci.yml`, artifacts, caching, and kubernetes runners.
 - 👨‍🍳 **[Jenkins](./Jenkins/)**: The classic open-source automation server. Dive into Jenkinsfiles (Declarative vs Scripted), plugins, and JCasC.
+- 🦑 **[ArgoCD](./ArgoCD/)**: The leading declarative, GitOps continuous delivery tool for Kubernetes.
+- 🎡 **[Spinnaker](./Spinnaker/)**: Advanced multi-cloud continuous delivery platform engineered for high-velocity Canary scale deployments.
 - 🛡️ **[SecOps](./SecOps/)**: Security Operations and DevSecOps. Deep dive into SAST, DAST, Secret Management, Zero Trust, and Cloud Security Posture Management.
 - 🐞 **[OWASP](./OWASP/)**: Deep dive into OWASP Top 10 vulnerabilities (SQLi, XSS, SSRF, IDOR) and specifically AppSec Testing Methodologies (SAST, DAST, and IAST configuration examples).
 
