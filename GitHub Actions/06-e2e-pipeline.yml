@@ -1,0 +1,118 @@
+name: E2E Production DevSecOps Pipeline
+# This corresponds to the 10-Stage Pipeline detailed in StudyMaterials/Production-E2E-Pipeline.md
+# It demonstrates shifting security left, container building, and deploying to Amazon EKS natively.
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: my-app-production
+  EKS_CLUSTER_NAME: my-production-cluster
+
+jobs:
+  production-pipeline:
+    name: Build, Scan, and Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for AWS OIDC authentication
+      contents: read
+    
+    steps:
+      # 1. Code Checkout
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # 2. Secret Scanning (GitLeaks)
+      - name: Secret Scanning
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false
+
+      # 3. Static Application Security Testing (SAST) - Semgrep
+      - name: SAST Scanning (Semgrep)
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: "p/default"
+
+      # 4. Filesystem SCA Scanning (Trivy FS)
+      - name: SCA Dependency Scanning (Trivy FS)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+
+      # 5. Application Build & Unit Testing (Node.js example)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run Unit Tests
+        run: npm test
+
+      # Authenticate to AWS strictly via OIDC (No long-lived access keys)
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/GitHubActions_ECR_EKS_Role
+          aws-region: ${{ env.AWS_REGION }}
+
+      # Login to Amazon Elastic Container Registry
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # 6. Container Image Building
+      - name: Build Docker Image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+
+      # 7. Container Image Scanning (Trivy Image)
+      - name: Scan Docker Image OS Packages (Trivy Image)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1' # Fails the pipeline on Critical/High vulnerabilities
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
+
+      # 8. Push to Container Registry (Amazon ECR)
+      - name: Push Secure Docker Image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker push $REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      # 9. Infrastructure & Application Deployment (Amazon EKS)
+      - name: Deploy to Amazon EKS
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          # Pull down the EKS cluster context mapping to the IAM role
+          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}
+          
+          # Dynamically set the new container image in the K8s deployment
+          kubectl set image deployment/my-app-deployment my-app=$REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          
+          # Wait for the rolling deployment to successfully complete
+          kubectl rollout status deployment/my-app-deployment --timeout=120s
+
+      # 10. Post-Deployment Testing (Integration & Smoke)
+      - name: E2E Smoke Test (Healthcheck)
+        run: |
+          # Ensure the application successfully routes and connects to its Database
+          curl --fail -s http://my-production-app.domain.com/healthz || exit 1

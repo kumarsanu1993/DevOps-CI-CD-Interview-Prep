@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-production-app
+  # ArgoCD natively stores its applications within its own namespace
+  namespace: argocd
+  finalizers:
+    # Ensures dependent cluster resources get deleted explicitly when this App is deleted
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  
+  # Pointing to the specific Git repository containing the Kubernetes manifests (Helm/Kustomize)
+  # This separates Source Code (CI) from Infrastructure Config (CD)
+  source:
+    repoURL: 'https://github.com/my-org/my-k8s-manifests.git'
+    targetRevision: HEAD
+    path: kustomize/production/my-app
+    
+  # The Destination EKS Cluster and Namespace
+  destination:
+    server: 'https://kubernetes.default.svc' # Refers to the internal API of the cluster ArgoCD is running in
+    namespace: production
+
+  # Sync Policies dictate how Argo CD enforces the GitOps state
+  syncPolicy:
+    automated:
+      prune: true     # Automatically delete resources in the Cluster that were removed from Git
+      selfHeal: true  # Automatically revert manual kubectl changes made directly on the cluster back to the Git state
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      
+  # Advanced Health Assessment
+  # ArgoCD actively polls the ReplicaSet to guarantee pods aren't just applied, but are fully Healthy before succeeding
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas # Allows HPA (Horizontal Pod Autoscaler) to manage replicas without ArgoCD fighting it

@@ -1,0 +1,71 @@
+{
+    "name": "E2E Production Spinnaker CD Pipeline",
+    "triggers": [
+        {
+            "enabled": true,
+            "type": "docker",
+            "account": "aws-ecr-registry",
+            "organization": "my-app-production",
+            "registry": "123456789012.dkr.ecr.us-east-1.amazonaws.com"
+        }
+    ],
+    "stages": [
+        {
+            "name": "Canary Traffic Assessment",
+            "type": "canary",
+            "refId": "1",
+            "requisiteStageRefIds": [],
+            "canaryConfig": {
+                "canaryConfigId": "my-prom-canary-config",
+                "lifetimeDuration": "PT1H",
+                "baselineAnalysisOffsetInMins": 5,
+                "metricsAccountName": "prometheus-cluster",
+                "storageAccountName": "s3-canary-logs",
+                "scoreThresholds": {
+                    "marginal": 75,
+                    "pass": 95
+                }
+            }
+        },
+        {
+            "name": "Executive Compliance Change Review",
+            "type": "manualJudgment",
+            "refId": "2",
+            "requisiteStageRefIds": [
+                "1"
+            ],
+            "instructions": "Kayenta automated analysis successful. Verify JIRA ticket SOC2 approval.",
+            "sendNotifications": true,
+            "notifications": [
+                {
+                    "address": "sre-oncall@myorg.com",
+                    "level": "stage",
+                    "type": "email",
+                    "when": [
+                        "manualJudgment"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Deploy Native K8s Manifests to EKS",
+            "type": "deployManifest",
+            "refId": "3",
+            "requisiteStageRefIds": [
+                "2"
+            ],
+            "account": "eks-production-cluster",
+            "cloudProvider": "kubernetes",
+            "source": "artifact",
+            "manifestArtifactAccount": "github-infrastructure-repo",
+            "manifestArtifactId": "my-k8s-manifest",
+            "trafficManagement": {
+                "enabled": true,
+                "options": {
+                    "strategy": "redblack",
+                    "enableTraffic": true
+                }
+            }
+        }
+    ]
+}

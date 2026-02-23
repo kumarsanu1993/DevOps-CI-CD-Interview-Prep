@@ -1,0 +1,124 @@
+# This corresponds to the 10-Stage Pipeline detailed in StudyMaterials/Production-E2E-Pipeline.md
+# It demonstrates shifting security left, container building, and deploying to Amazon EKS natively via GitLab Runners.
+
+stages:
+  - validate
+  - sast
+  - sca
+  - build
+  - scan_image
+  - push_image
+  - deploy
+  - post_deploy
+
+variables:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: my-app-production
+  EKS_CLUSTER_NAME: my-production-cluster
+  # DIND required for Docker-in-Docker GitLab Runners
+  DOCKER_HOST: tcp://docker:2375 
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  # Utilizing GitLab's internal registry caching mechanism mapped cleanly to ECR
+  IMAGE_TAG: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$CI_COMMIT_SHORT_SHA
+
+# 1. Code Checkout happens automatically in GitLab via the Runner fetching the repository workspace.
+
+# 2. Secret Scanning (GitLeaks)
+gitleaks_scan:
+  stage: validate
+  image: zricethezav/gitleaks:latest
+  script:
+    - gitleaks detect -v --source .
+  allow_failure: false # Hard fail if secrets are found
+
+# 3. Static Application Security Testing (SAST)
+semgrep_sast:
+  stage: sast
+  image: returntocorp/semgrep
+  script:
+    - semgrep ci --config=p/default
+  allow_failure: false
+
+# 4. Filesystem SCA Scanning (Trivy FS)
+trivy_fs:
+  stage: sca
+  image: aquasec/trivy:latest
+  script:
+    - trivy fs --exit-code 1 --severity CRITICAL,HIGH .
+
+# 5. Application Build & Unit Testing
+unit_testing:
+  stage: build
+  image: node:18-alpine
+  script:
+    - npm ci
+    - npm test
+  artifacts:
+    reports:
+      junit: test-results.xml
+    paths:
+      - node_modules/
+
+# 6. Container Image Building
+build_image:
+  stage: build
+  needs: ["unit_testing"]
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  script:
+    - docker build -t $IMAGE_TAG .
+    - docker save $IMAGE_TAG > image.tar
+  artifacts:
+    paths:
+      - image.tar
+    expire_in: 1 hour
+
+# 7. Container Image Scanning (Trivy Image)
+scan_image:
+  stage: scan_image
+  image: aquasec/trivy:latest
+  script:
+    # Load the artifact from the previous stage
+    - docker load < image.tar
+    - trivy image --exit-code 1 --severity CRITICAL,HIGH $IMAGE_TAG
+
+# 8. Push to Container Registry (Amazon ECR)
+push_to_ecr:
+  stage: push_image
+  needs: ["scan_image"]
+  image:
+    name: amazon/aws-cli
+    entrypoint: [""]
+  before_script:
+    # Authenticate to AWS ECR. Secure runners assume OIDC mapping $AWS_ACCOUNT_ID via CI/CD variables
+    - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+  script:
+    - docker push $IMAGE_TAG
+
+# 9. Infrastructure & Application Deployment (Amazon EKS)
+deploy_to_eks:
+  stage: deploy
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: [""]
+  before_script:
+    # Pull EKS context using implicit runner IAM role assumption or injected AWS_ACCESS_KEY mapped to environment scopes
+    - aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER_NAME
+  script:
+    - kubectl set image deployment/my-app-deployment my-app=$IMAGE_TAG
+    - kubectl rollout status deployment/my-app-deployment --timeout=120s
+  environment:
+    name: production
+    url: https://my-production-app.domain.com
+
+# 10. Post-Deployment Testing (Integration & Smoke)
+smoke_test:
+  stage: post_deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache curl
+  script:
+    # Fail immediately if the status code is not 200/2XX
+    - curl --fail -s https://my-production-app.domain.com/healthz || exit 1

@@ -1,0 +1,157 @@
+// This corresponds to the 10-Stage Pipeline detailed in StudyMaterials/Production-E2E-Pipeline.md
+// It demonstrates Jenkins native declarative pipeline structure, shifting security left, and EKS deployments.
+
+pipeline {
+    // Utilize a Dynamic Kubernetes Agent to execute builds scalably without hitting a single Master node
+    agent {
+        kubernetes {
+            yaml '''
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              labels:
+                pipeline: "production-e2e"
+            spec:
+              serviceAccountName: jenkins-build-runner
+              containers:
+              - name: jnlp
+                image: jenkins/inbound-agent:alpine
+              - name: tools
+                image: alpine:latest
+                command:
+                - cat
+                tty: true
+            '''
+        }
+    }
+
+    environment {
+        AWS_REGION = 'us-east-1'
+        ECR_REPOSITORY = 'my-app-production'
+        EKS_CLUSTER_NAME = 'my-production-cluster'
+        
+        // Take the first 7 chars of the Git Commit SHA for accurate image tagging
+        IMAGE_TAG = "${GIT_COMMIT.take(7)}" 
+        AWS_ACCOUNT_ID = credentials('AWS_ACCOUNT_ID') // Passed via Jenkins Credentials manager securely
+        REGISTRY_URL = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+        FULL_IMAGE_NAME = "${REGISTRY_URL}/${ECR_REPOSITORY}:${IMAGE_TAG}"
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '50'))
+        disableConcurrentBuilds()
+        timeout(time: 30, unit: 'MINUTES')
+    }
+
+    stages {
+        // 1. Code Checkout happens implicitly with Jenkins checking out the SCM configured on the Job.
+
+        stage('2. Secret Scanning (GitLeaks)') {
+            steps {
+                container('tools') {
+                    // Running Docker in Jenkins container or using a pre-packaged agent image. 
+                    // Note: Here executing via a container run.
+                    sh 'docker run --rm -v $WORKSPACE:/path zricethezav/gitleaks:latest detect -v --source /path'
+                }
+            }
+        }
+
+        stage('3. SAST Scanning (Semgrep)') {
+            steps {
+                container('tools') {
+                    sh 'docker run --rm -v $WORKSPACE:/src returntocorp/semgrep semgrep ci --config=p/default'
+                }
+            }
+            post {
+                failure {
+                    echo "Critical SAST Vulnerabilities Found! Failing the Build."
+                }
+            }
+        }
+
+        stage('4. SCA Scanning (Trivy FS)') {
+            steps {
+                container('tools') {
+                    sh 'docker run --rm -v $WORKSPACE:/src aquasec/trivy:latest fs --exit-code 1 --severity CRITICAL,HIGH /src'
+                }
+            }
+        }
+
+        stage('5. Build & Unit Testing') {
+            steps {
+                container('tools') {
+                    // Using an Alpine Node.js layer or mounting explicit tooling
+                    sh 'apk add --no-cache nodejs npm'
+                    sh 'npm ci'
+                    sh 'npm test'
+                }
+            }
+        }
+
+        stage('6. Container Image Building') {
+            steps {
+                container('tools') {
+                    sh "docker build -t ${FULL_IMAGE_NAME} ."
+                }
+            }
+        }
+
+        stage('7. Container Image Scanning (Trivy Image)') {
+            steps {
+                container('tools') {
+                    // Prevent pushing compromised OS packaging
+                    sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image --exit-code 1 --severity CRITICAL,HIGH ${FULL_IMAGE_NAME}"
+                }
+            }
+        }
+
+        stage('8. Push to Amazon ECR') {
+            steps {
+                container('tools') {
+                    // Assuming IAM Role is securely attached to the Jenkins EKS Worker Node (IRSA)
+                    // or injecting credentials securely via standard Jenkins WithCredentials block
+                    withCredentials([aws(credentialsId: 'jenkins-aws-credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                        sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${REGISTRY_URL}"
+                        sh "docker push ${FULL_IMAGE_NAME}"
+                    }
+                }
+            }
+        }
+
+        stage('9. Infrastructure Deploy (Amazon EKS)') {
+            steps {
+                container('tools') {
+                    withCredentials([aws(credentialsId: 'jenkins-aws-credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                        // Dynamically update context via cluster name mapped to AWS IAM
+                        sh "aws eks update-kubeconfig --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME}"
+                        
+                        // Execute rolling deployment using the uniquely tagged image
+                        sh "kubectl set image deployment/my-app-deployment my-app=${FULL_IMAGE_NAME}"
+                        sh "kubectl rollout status deployment/my-app-deployment --timeout=120s"
+                    }
+                }
+            }
+        }
+
+        stage('10. Post-Deployment Smoke Test') {
+            steps {
+                container('tools') {
+                    sh 'curl --fail -s https://my-production-app.domain.com/healthz || exit 1'
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            // Guarantee artifact purging to keep worker nodes extremely clean
+            cleanWs()
+        }
+        success {
+            echo "Pipeline Deployed to EKS flawlessly!"
+        }
+        failure {
+            echo "Build failed. Check Trivy or Semgrep outputs immediately."
+        }
+    }
+}
