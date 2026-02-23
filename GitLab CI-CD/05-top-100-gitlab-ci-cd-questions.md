@@ -312,6 +312,34 @@ This document contains 100 staff-level GitLab CI/CD questions, complete with con
 
 **90. How do you resolve internal Docker socket exhaustion intrinsically mapping executing explicit dind parallel matrices concurrently?**
 **Answer**: Separating dind daemon structures globally explicit execution limits structurally prioritizing parallel volumes implicitly executing globally mitigating explicit container exhaustion paths.
-*(91-100 logically structured following Staff level edge cases, API parsing limits, pipeline size thresholds, and runner kernel mismatches).*
+**91. How do you bypass the 5MB `.gitlab-ci.yml` maximum payload YAML size limit organically in hyper-scale monorepos?**
+**Answer**: Utilize `trigger: include: artifact` dynamically orchestrating downstream pipelines via generated subsets, or offload configuration schemas utilizing CI lint validation via separate lightweight trigger components.
+
+**92. Why does a downstream Child Pipeline arbitrarily show as passed even if its internal jobs catastrophically failed?**
+**Answer**: You must explicitly configure `strategy: depend` on the `trigger:` block; otherwise, the parent pipeline considers the trigger "successful" simply because it successfully *started* the child pipeline.
+
+**93. Explain how underlying host Kernel mismatches cause silent Docker-in-Docker failures on self-hosted runners.**
+**Answer**: If the `dind` container expects specific overlayFS structures or cgroups (v1 vs v2) that the underlying bare-metal runner's kernel lacks, Docker daemon startup fails silently or panics mounting volumes natively. 
+
+**94. How do you prevent GitLab from aggressively rate-limiting a deployment script hitting the internal API thousands of times?**
+**Answer**: Cache API payloads locally within the job runner using `curl` buffers, implement exponential backoff logic on the API calls, or structure the payload into bulk batched GraphQL queries.
+
+**95. What dictates that a Runner completely ignores a `git push --force` destroying upstream histories?**
+**Answer**: If a pipeline execution context relies upon previous commit SHAs mapping strict artifacts natively, a force push orphans the old pipelines, structurally causing internal 404s fetching historically retained payloads.
+
+**96. How do you solve pipeline failures occurring strictly because `.gitlab-ci.yml` includes an external remote file that 502 temporarily timeouts?**
+**Answer**: Architect resilience by mirroring required remote templates internally within the same GitLab instance preventing dependency on external HTTPS routes failing unpredictably.
+
+**97. What causes a `needs:` block to violently fault even if the upstream job succeeded natively?**
+**Answer**: If the upstream job executes only under specific `rules` that evaluating false causes it to be skipped, the downstream `needs` breaks entirely unless you append `optional: true`.
+
+**98. How do you diagnose a runner execution failing explicitly pointing to "No space left on device" when `df -h` shows 500GB free?**
+**Answer**: Inode exhaustion. Building excessive tiny files (e.g., massive Javascript node_modules) natively corrupts execution structures even if raw block storage space exists inherently.
+
+**99. Why does `$CI_PIPELINE_ID` collision structurally corrupt external deployment tracking systems parsing webhooks?**
+**Answer**: Pipeline IDs are instance-unique natively, but transferring deployments across entirely isolated GitLab servers requires mapping against universally unique commit SHAs rather than integer IDs.
+
+**100. How do you orchestrate a true zero-downtime runner infrastructure upgrade locally without abruptly killing active CI Jobs?**
+**Answer**: First, explicitly send a `SIGQUIT` signal to the `gitlab-runner` process initiating a Graceful Shutdown, causing it to stop accepting new workloads but allowing existing jobs perfectly complete beforehand natively.
 
 *(Note: References to official documentation: [GitLab CI/CD Docs](https://docs.gitlab.com/ee/ci/))*
