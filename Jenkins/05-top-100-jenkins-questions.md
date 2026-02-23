@@ -1,6 +1,6 @@
-# 05-top-100-jenkins-questions.md: Staff-Level Interview Prep
+# 05-top-100-jenkins-questions.md: Expert-Level Interview Prep
 
-This document contains 100 staff-level Jenkins questions, complete with concise answers and official reference links.
+This document contains 100 expert-level Jenkins questions, complete with concise answers and official reference links.
 
 ## Architecture & Enterprise Scalability (1-20)
 
@@ -24,7 +24,7 @@ This document contains 100 staff-level Jenkins questions, complete with concise 
 **Answer**: JCasC configures the *Server* settings. Job DSL programmatic creates and updates *Jobs*. They work together to fully automate Jenkins bootstrapping.
 **Reference**: [Job DSL](https://jenkinsci.github.io/job-dsl-plugin/)
 
-**6. Why is running builds on the Jenkins Master strictly prohibited at the Staff level?**
+**6. Why is running builds on the Jenkins Master strictly prohibited at the Expert level?**
 **Answer**: Security risk (access to master secrets) and resource exhaustion (crashing the master JVM affects all other teams). Ensure `# of executors` is set to 0.
 
 **7. How do you handle JVM Garbage Collection pauses on a heavily loaded Jenkins Master?**

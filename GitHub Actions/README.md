@@ -1,6 +1,6 @@
 # GitHub Actions Interview Questions
 
-This directory contains a progressive learning path for GitHub Actions within the CI/CD context, from basic principles to Staff-level scaling patterns.
+This directory contains a progressive learning path for GitHub Actions within the CI/CD context, from basic principles to Expert-level scaling patterns.
 
 ## 📚 Modules
 
@@ -15,11 +15,11 @@ This directory contains a progressive learning path for GitHub Actions within th
 *   **Analogy**: "The Efficient Factory" - optimizing the line and keeping data secure.
 
 ### [03-advanced-github-actions.md](./03-advanced-github-actions.md)
-*   **Target Audience**: Staff/Lead CI/CD Engineer.
+*   **Target Audience**: Expert/Lead CI/CD Engineer.
 *   **Key Concepts**: Custom Action creation, OIDC Integration, Concurrency rules, Environment Protection.
 *   **Analogy**: "The Supply Chain Architect" - custom tooling and deployments.
 
-### [04-staff-github-actions.md](./04-staff-github-actions.md)
+### [04-expert-github-actions.md](./04-expert-github-actions.md)
 *   **Target Audience**: Principal/Platform Engineer.
 *   **Key Concepts**: Ephemeral Self-Hosted Runners (ARC), Enterprise Governance, Supply Chain Security (SLSA, Pinning SHAs).
 *   **Analogy**: "The Global Logistics Network".

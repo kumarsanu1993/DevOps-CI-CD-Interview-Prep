@@ -12,11 +12,11 @@ Welcome to the **DevOps & CI/CD** learning path. This directory contains structu
 
 ## 📖 How to Use
 
-Each specific tool folder contains a progressive learning track designed in the `SystemDesign` pattern, increasing in difficulty from Beginner to Staff level:
+Each specific tool folder contains a progressive learning track designed in the `SystemDesign` pattern, increasing in difficulty from Beginner to Expert level:
 1. `01-beginner-*.md`: Fundamentals and core analogies.
 2. `02-intermediate-*.md`: Workflows, caching, data passing.
 3. `03-advanced-*.md`: Extensibility, matrix builds, complex pipelines.
-4. `04-staff-*.md`: Enterprise scaling, highly available infrastructure, rigorous security.
+4. `04-expert-*.md`: Enterprise scaling, highly available infrastructure, rigorous security.
 5. `05-top-100-*-questions.md`: A rapid-fire cheat sheet for interview prep.
 
 Pick the tool you are using (or plan to interview for) and start your journey!

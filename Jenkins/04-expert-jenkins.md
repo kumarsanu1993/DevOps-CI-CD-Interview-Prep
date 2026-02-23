@@ -1,7 +1,7 @@
-# 04-staff-jenkins.md: Enterprise Scale & Resilience
+# 04-expert-jenkins.md: Enterprise Scale & Resilience
 
-## 👑 Staff Corner: Scaling the Butler to a Global Logistics Network
-At the Staff level, you are solving the fundamental architectural flaws of Jenkins (Single Point of Failure, JVM garbage collection pauses) for enterprise use.
+## 👑 Expert Corner: Scaling the Butler to a Global Logistics Network
+At the Expert level, you are solving the fundamental architectural flaws of Jenkins (Single Point of Failure, JVM garbage collection pauses) for enterprise use.
 
 ---
 

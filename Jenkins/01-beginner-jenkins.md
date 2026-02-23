@@ -3,7 +3,7 @@
 ## 🐣 Beginner's Corner: The "Butler" Analogy
 Think of Jenkins as a very reliable, somewhat old-fashioned butler.
 - **Master Node**: The Butler giving orders and keeping track of the schedule.
-- **Agent/Worker Node**: The specialized staff doing the actual heavy lifting (baking, painting, building).
+- **Agent/Worker Node**: The specialized expert doing the actual heavy lifting (baking, painting, building).
 - **Freestyle Job**: A quickly written sticky note of instructions for the Butler.
 - **Pipeline (Jenkinsfile)**: A formal, typed-out recipe for the Butler to follow step-by-step.
 - **Plugins**: Different tools you give to the Butler so he can interact with new things (like giving him a megaphone to talk to Slack, or keys to AWS).

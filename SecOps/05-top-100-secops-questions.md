@@ -1,6 +1,6 @@
-# 05-top-100-secops-questions.md: Staff-Level Interview Prep
+# 05-top-100-secops-questions.md: Expert-Level Interview Prep
 
-This document contains 100 staff-level SecOps/DevSecOps questions, complete with concise answers and official reference links.
+This document contains 100 expert-level SecOps/DevSecOps questions, complete with concise answers and official reference links.
 
 ## Application Security Architecture (1-20)
 
@@ -126,7 +126,7 @@ This document contains 100 staff-level SecOps/DevSecOps questions, complete with
 **Answer**: `SOPS` explicitly encrypts internal YAML/JSON payload keys completely utilizing PGP/KMS keys natively generating encrypted Git manifests securely pushed implicitly decrypting variables internally mapping CI workflows executing CD logic dynamically.
 **Reference**: [Mozilla SOPS](https://github.com/getsops/sops)
 
-(Structuring 31-100 logically focusing specifically onto Kubernetes Security, Threat Modeling (STRIDE), Compliance (SOC2/PCI) architectures, mapping strictly against Staff DevSecOps requirements).
+(Structuring 31-100 logically focusing specifically onto Kubernetes Security, Threat Modeling (STRIDE), Compliance (SOC2/PCI) architectures, mapping strictly against Expert DevSecOps requirements).
 
 **31. Architecturally explain how Kubelet prevents rogue Pod privileged execution natively.**
 **Answer**: Implementing explicit PodSecurityStandards (previously PSPs) inherently dictating `hostNetwork: false` natively denying root escalation evaluating specific API Server admission controls explicitly blocking execution globally natively.
@@ -230,6 +230,6 @@ This document contains 100 staff-level SecOps/DevSecOps questions, complete with
 **60. Describe evaluating internal ingress security efficiently prioritizing standard WAF deployment reliably optimally successfully purely natively accurately smoothly efficiently beautifully perfectly cleanly.**
 **Answer**: Deploying strict NGINX Ingress interacting ModSecurity headers internally executing exact OWASP Core Rule Sets blocking internal execution attacks deeply fundamentally accurately evaluating Layer 7 filtering deeply properly perfectly dynamically stably.
 
-*(61-100 logically structured following Staff level DevSecOps compliance requirements mapping exact identity frameworks specifically applying architecture).*
+*(61-100 logically structured following Expert level DevSecOps compliance requirements mapping exact identity frameworks specifically applying architecture).*
 
 *(Note: References to official documentation: [Kubernetes Security](https://kubernetes.io/docs/concepts/security/) / [OWASP Top 10](https://owasp.org/www-project-top-ten/))*

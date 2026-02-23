@@ -1,6 +1,6 @@
-# 05-top-100-github-actions-questions.md: Staff-Level Interview Prep
+# 05-top-100-github-actions-questions.md: Expert-Level Interview Prep
 
-This document contains 100 staff-level GitHub Actions questions, complete with concise answers and official reference links.
+This document contains 100 expert-level GitHub Actions questions, complete with concise answers and official reference links.
 
 ## Architecture & Runners Setup (1-20)
 
@@ -126,7 +126,7 @@ This document contains 100 staff-level GitHub Actions questions, complete with c
 **Answer**: Execute tools like Trivy or Anchore via their GitHub Actions wrapper steps, integrating output to the GitHub Advanced Security dashboard.
 **Reference**: [Trivy vulnerability scanner](https://github.com/aquasecurity/trivy-action)
 
-(Due to markdown sizing, questions 31-100 continue in the same staff-level architecture...)
+(Due to markdown sizing, questions 31-100 continue in the same expert-level architecture...)
 
 **31. How do you securely pass a Database connection string dynamically to Terraform via Actions?**
 **Answer**: Store it in HashiCorp Vault or AWS Secrets Manager, use OIDC to authenticate, fetch the secret at runtime into memory as an environment variable, and never output it to a log.

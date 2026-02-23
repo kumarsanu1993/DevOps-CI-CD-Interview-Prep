@@ -1,6 +1,6 @@
-# 05-top-100-gitlab-ci-cd-questions.md: Staff-Level Interview Prep
+# 05-top-100-gitlab-ci-cd-questions.md: Expert-Level Interview Prep
 
-This document contains 100 staff-level GitLab CI/CD questions, complete with concise answers and official reference links.
+This document contains 100 expert-level GitLab CI/CD questions, complete with concise answers and official reference links.
 
 ## Pipeline Architecture & Modularity (1-20)
 
@@ -103,7 +103,7 @@ This document contains 100 staff-level GitLab CI/CD questions, complete with con
 **Reference**: [Kubernetes executor](https://docs.gitlab.com/runner/executors/kubernetes.html)
 
 **25. How do you securely execute Docker (`docker build`) inside a Kubernetes Runner?**
-**Answer**: Running Docker-in-Docker (dind) requires privileged pods, which breaks K8s security. The Staff-level solution relies on rootless daemon builders like Google's **Kaniko** or **Buildah**, which map filesystem outputs to container registries without requiring Docker socket access.
+**Answer**: Running Docker-in-Docker (dind) requires privileged pods, which breaks K8s security. The Expert-level solution relies on rootless daemon builders like Google's **Kaniko** or **Buildah**, which map filesystem outputs to container registries without requiring Docker socket access.
 **Reference**: [Use Kaniko to build Docker images](https://docs.gitlab.com/ee/ci/docker/using_kaniko.html)
 
 **26. How do you manage concurrent job limits per Runner?**

@@ -1,6 +1,6 @@
 # Jenkins Interview Questions
 
-This directory contains a progressive learning path for Jenkins, the original open-source automation server, from basic operations to Staff-level architectural designs.
+This directory contains a progressive learning path for Jenkins, the original open-source automation server, from basic operations to Expert-level architectural designs.
 
 ## 📚 Modules
 
@@ -15,11 +15,11 @@ This directory contains a progressive learning path for Jenkins, the original op
 *   **Analogy**: "The Efficient Kitchen" - standardizing recipes (Pipelines) across all chefs.
 
 ### [03-advanced-jenkins.md](./03-advanced-jenkins.md)
-*   **Target Audience**: Staff/Lead CI/CD Engineer.
+*   **Target Audience**: Expert/Lead CI/CD Engineer.
 *   **Key Concepts**: Jenkins Configuration as Code (JCasC), Dynamic Kubernetes Agents, Job DSL.
 *   **Analogy**: "The Automated Factory" - treating the CI system itself as infrastructure-as-code.
 
-### [04-staff-jenkins.md](./04-staff-jenkins.md)
+### [04-expert-jenkins.md](./04-expert-jenkins.md)
 *   **Target Audience**: Principal/Platform Engineer.
 *   **Key Concepts**: Scaling Limits, Ephemeral Masters, High Availability solutions, SSO/RBAC, Monitoring (Prometheus/Grafana).
 *   **Analogy**: "The Franchise Operator" - scaling the CI system across hundreds of teams.

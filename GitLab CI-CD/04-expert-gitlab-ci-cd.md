@@ -1,7 +1,7 @@
-# 04-staff-gitlab-ci-cd.md: Enterprise Operations & Security
+# 04-expert-gitlab-ci-cd.md: Enterprise Operations & Security
 
-## 👑 Staff Corner: Governance, Runner Autoscaling, and Compliance
-At the Staff level, you are managing GitLab across the enterprise, ensuring compliance, and optimizing runner infrastructure.
+## 👑 Expert Corner: Governance, Runner Autoscaling, and Compliance
+At the Expert level, you are managing GitLab across the enterprise, ensuring compliance, and optimizing runner infrastructure.
 
 ---
 

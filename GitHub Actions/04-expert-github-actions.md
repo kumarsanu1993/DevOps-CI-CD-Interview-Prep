@@ -1,7 +1,7 @@
-# 04-staff-github-actions.md: Enterprise Scale & DevSecOps
+# 04-expert-github-actions.md: Enterprise Scale & DevSecOps
 
-## 👑 Staff Corner: Governance, Scaling, and Hardening
-At the Staff/Principal level, you are designing CI/CD systems for hundreds of developers across thousands of repositories.
+## 👑 Expert Corner: Governance, Scaling, and Hardening
+At the Expert/Principal level, you are designing CI/CD systems for hundreds of developers across thousands of repositories.
 
 ---
 

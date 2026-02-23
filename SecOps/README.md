@@ -15,11 +15,11 @@ Welcome to the **SecOps & DevSecOps** learning path. This directory contains str
 *   **Analogy**: "Hardening the Walls" - securing perimeters and payloads.
 
 ### [03-advanced-secops.md](./03-advanced-secops.md)
-*   **Target Audience**: Staff DevSecOps Engineer.
+*   **Target Audience**: Expert DevSecOps Engineer.
 *   **Key Concepts**: Zero Trust, mTLS, CSPM (Posture Management), SIEM, IAST.
 *   **Analogy**: "The Paranoia Paradigm" - architecting hostile networks.
 
-### [04-staff-secops.md](./04-staff-secops.md)
+### [04-expert-secops.md](./04-expert-secops.md)
 *   **Target Audience**: Principal Security Architect / CISO track.
 *   **Key Concepts**: Threat Modeling (STRIDE), SLSA Framework, SBOMs, KMS Envelope Encryption, Dynamic Vault Secrets.
 *   **Analogy**: "The Global Defense Strategy".

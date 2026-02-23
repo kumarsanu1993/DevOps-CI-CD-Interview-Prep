@@ -56,4 +56,4 @@ pipeline {
 - **RBAC**: Role-Based Access Control mapped via external IAM (Active Directory).
 - **Agents (Nodes)**: The worker instances that actually execute the builds.
 
-This document serves as an aggregate quick-reference guide. For deep dives, refer to the Staff-Level `100 Questions` modules in each respective folder.
+This document serves as an aggregate quick-reference guide. For deep dives, refer to the Expert-Level `100 Questions` modules in each respective folder.

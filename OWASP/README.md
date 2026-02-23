@@ -15,11 +15,11 @@ Welcome to the **OWASP & Application Security** learning path. This directory co
 *   **Analogy**: "The Broken Locks" - mitigating client-side and database exploits organically.
 
 ### [03-advanced-owasp.md](./03-advanced-owasp.md)
-*   **Target Audience**: Staff Backend Engineer / DevSecOps.
+*   **Target Audience**: Expert Backend Engineer / DevSecOps.
 *   **Key Concepts**: Server-Side Request Forgery (SSRF), Insecure Deserialization, XXE, and Cryptographic Failures.
 *   **Analogy**: "The Internal Betrayal" - forcing backend servers to explicitly compromise environments natively.
 
-### [04-staff-owasp.md](./04-staff-owasp.md)
+### [04-expert-owasp.md](./04-expert-owasp.md)
 *   **Target Audience**: Principal Security Architect.
 *   **Key Concepts**: OWASP ASVS, Vulnerable Components (Dependency-Track), DefectDojo, and CI/CD AppSec Architectures (SAST/DAST/SCA/IAST integrations).
 *   **Analogy**: "The Unified AppSec Program".

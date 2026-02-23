@@ -1,6 +1,6 @@
 # 05-top-100-owasp-questions.md: MAANG Standard AppSec Interview Prep
 
-This document contains 100 rigorous, staff-level AppSec questions formatted specifically for MAANG (Meta, Amazon, Apple, Netflix, Google) security engineering and DevSecOps interviews.
+This document contains 100 rigorous, expert-level AppSec questions formatted specifically for MAANG (Meta, Amazon, Apple, Netflix, Google) security engineering and DevSecOps interviews.
 
 ## SAST, DAST, IAST & CI/CD Integrations (1-20)
 

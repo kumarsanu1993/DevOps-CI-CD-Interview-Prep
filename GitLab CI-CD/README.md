@@ -1,6 +1,6 @@
 # GitLab CI/CD Interview Questions
 
-This directory contains a progressive learning path for GitLab CI/CD, from basic YAML definition to Staff-level scaling patterns.
+This directory contains a progressive learning path for GitLab CI/CD, from basic YAML definition to Expert-level scaling patterns.
 
 ## 📚 Modules
 
@@ -15,11 +15,11 @@ This directory contains a progressive learning path for GitLab CI/CD, from basic
 *   **Analogy**: "Conditional Workflow".
 
 ### [03-advanced-gitlab-ci-cd.md](./03-advanced-gitlab-ci-cd.md)
-*   **Target Audience**: Staff/Lead CI/CD Engineer.
+*   **Target Audience**: Expert/Lead CI/CD Engineer.
 *   **Key Concepts**: Child Pipelines, Multi-Project Pipelines, Dynamic Pipelines, Modularity (`include`, `extends`).
 *   **Analogy**: "The Mono-repo Master".
 
-### [04-staff-gitlab-ci-cd.md](./04-staff-gitlab-ci-cd.md)
+### [04-expert-gitlab-ci-cd.md](./04-expert-gitlab-ci-cd.md)
 *   **Target Audience**: Principal/Platform Engineer.
 *   **Key Concepts**: Kubernetes Runner Autoscaling, Compliance Pipelines, OIDC/Vault Integrations, Kaniko builds.
 *   **Analogy**: "The Enterprise Guardian".

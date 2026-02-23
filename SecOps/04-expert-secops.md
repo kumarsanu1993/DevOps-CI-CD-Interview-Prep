@@ -1,7 +1,7 @@
-# 04-staff-secops.md: Governance, Threat Modeling & Supply Chain
+# 04-expert-secops.md: Governance, Threat Modeling & Supply Chain
 
-## 👑 Staff Corner: Enterprise Risk & Secure Supply Chains
-At the Staff/Principal level, you are not just configuring security tools; you are building organizational frameworks, managing executive risk, and defending against state-sponsored supply chain vectors.
+## 👑 Expert Corner: Enterprise Risk & Secure Supply Chains
+At the Expert/Principal level, you are not just configuring security tools; you are building organizational frameworks, managing executive risk, and defending against state-sponsored supply chain vectors.
 
 ---
 
@@ -25,7 +25,7 @@ At the Staff/Principal level, you are not just configuring security tools; you a
 
 ### Q4: Explain the concept of "Blast Radius."
 - **Answer**: The measurement of how far collateral damage extends if a specific component is compromised.
-- **Staff-level design**: Segmenting networks, isolating AWS accounts using AWS Organizations, and utilizing strict IAM boundaries so that if a frontend web server is compromised, the blast radius does not reach the internal financial database.
+- **Expert-level design**: Segmenting networks, isolating AWS accounts using AWS Organizations, and utilizing strict IAM boundaries so that if a frontend web server is compromised, the blast radius does not reach the internal financial database.
 
 ## 3. Cryptography & Secrets Architecture at Scale
 

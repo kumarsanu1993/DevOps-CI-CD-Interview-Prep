@@ -1,7 +1,7 @@
-# 04-staff-owasp.md: Enterprise Application Security Verification
+# 04-expert-owasp.md: Enterprise Application Security Verification
 
-## 👑 Staff Corner: Scaling AppSec & Supply Chain Governance
-At the Staff/Principal level, you are establishing the overarching Application Security programs, unifying standard tooling dynamically, and standardizing OWASP specifications enterprise-wide.
+## 👑 Expert Corner: Scaling AppSec & Supply Chain Governance
+At the Expert/Principal level, you are establishing the overarching Application Security programs, unifying standard tooling dynamically, and standardizing OWASP specifications enterprise-wide.
 
 ---
 
@@ -14,7 +14,7 @@ At the Staff/Principal level, you are establishing the overarching Application S
   - **Level 3**: Advanced (High-assurance applications processing critical medical/military datasets reliably).
 
 ### Q2: How do you handle AppSec alert fatigue resulting from massive SAST and DAST pipelines?
-- **Answer**: Staff-level engineers heavily rely on Vulnerability Management tools (e.g., OWASP DefectDojo).
+- **Answer**: Expert-level engineers heavily rely on Vulnerability Management tools (e.g., OWASP DefectDojo).
 - **Process**: All outputs natively parsed from Trivy, SonarQube, ZAP consolidate globally into a single pane of glass, deduplicating vulnerabilities automatically and prioritizing explicit risk scores cleanly and perfectly.
 
 ## 2. Supply Chain Risks (Vulnerable Components)
@@ -23,7 +23,7 @@ At the Staff/Principal level, you are establishing the overarching Application S
 - **Answer**: Implementing structured Software Bill of Materials (SBOMs).
 - **OWASP Dependency-Track**: An explicit enterprise platform aggregating SBOMs, securely mapping libraries and alerting instantly on Zero-Day vulnerabilities (like Log4Shell) to locate exactly which microservices contain the compromised library.
 
-### Q4: Architecturally, how do SAST, DAST, SCA, and IAST fit together inside a Staff-level CI/CD pipeline?
+### Q4: Architecturally, how do SAST, DAST, SCA, and IAST fit together inside a Expert-level CI/CD pipeline?
 - **Answer**: 
   - **Pre-Commit**: Developer IDE runs lightweight SAST via extensions organically.
   - **Continuous Integration (Build)**: SCA evaluates dependencies natively blocking high CVEs natively. Comprehensive SAST executes organically evaluating logic accurately completely.
